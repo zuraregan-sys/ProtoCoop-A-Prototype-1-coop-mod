@@ -66,6 +66,34 @@ lobbies and a two-player session.
 
 ---
 
+## 🧩 Mod compatibility
+
+There is no guaranteed compatibility list beyond vanilla Prototype and
+PrototypeFix 1.8.0. Test one mod at a time.
+
+- **Likely compatible:** texture swaps and cosmetic loose-file mods that do not
+  replace `xinput1_3.dll`, `binkw32.dll`, `prototypeenginef.dll`, the menu
+  movies, or add another ASI loader.
+- **Likely incompatible:** other co-op/online mods, controller/XInput proxies,
+  menu mods, trainers, and mods that hook the same engine functions.
+
+### Character model mods
+
+- Model swaps that keep Alex's original skeleton and joint count are the
+  safest.
+- Models with a different skeleton, joint count or animation set can break the
+  puppet pose.
+- **Both players need the same model mod.** Models are not streamed: each PC
+  builds the remote puppet from its own local files and resolves the host's
+  model hash locally. If only one player has the mod, the other may see vanilla
+  Alex or a fallback.
+
+If the puppet T-poses, shows the wrong model, or the game crashes, remove the
+model mod and report it with `coop.log`. The `model apply` and `pose` lines in
+that log show whether the model hash and joint count matched.
+
+---
+
 ## 📦 Requirements
 
 - **Prototype (2009)** on Steam (App ID `10150`).
