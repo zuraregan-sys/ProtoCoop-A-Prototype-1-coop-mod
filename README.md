@@ -207,8 +207,33 @@ session during gameplay.
   asks before stopping it; that service returns after a reboot.
 - **Unsigned build.** Windows SmartScreen or antivirus software may warn about
   the launcher or plugin because they are unsigned. Do not disable your
-  antivirus. Compare `PrototypeCoop.zip` with `SHA256SUMS.txt`, and report the
-  exact file name and hash in an issue if you believe it is a false positive.
+  antivirus. See [Verify the download](#verify-the-download) below.
+
+---
+
+## Verify the download
+
+`SHA256SUMS.txt` contains the SHA-256 of `PrototypeCoop.zip`. To check it in
+PowerShell:
+
+```powershell
+Get-FileHash .\PrototypeCoop.zip -Algorithm SHA256
+```
+
+The `Hash` value must match the hash in [`SHA256SUMS.txt`](SHA256SUMS.txt). If it
+does not match, delete the file and download it again from the official release;
+do not run it.
+
+The launcher and plugins are unsigned, so Windows SmartScreen or antivirus
+software may warn about them. Do not disable your antivirus. If the ZIP hash
+matches and you believe a warning is a false positive, [open an
+issue](../../issues) with:
+
+- the exact flagged file name, for example `PrototypeCoopLauncher.exe` or
+  `payload\mod\prototype_coop.asi`;
+- that file's SHA-256;
+- the ZIP hash;
+- your antivirus name/version and the detection name.
 
 ---
 
