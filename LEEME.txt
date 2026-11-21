@@ -1,0 +1,100 @@
+﻿PROTOTYPE COOP - LEEME
+======================
+
+QUE ES
+Coop online para Prototype (2009). El anfitrion abre ONLINE y los demas
+jugadores se unen desde el mismo menu. El mod sincroniza el avatar remoto, su
+pose, poderes, dano/destruccion, agarres, particulas y decals.
+
+REQUISITOS
+- Prototype (2009) de Steam, 32 bits, con la carpeta del juego.
+- PrototypeFix 1.8.0 de emoose, instalado aparte desde Nexus y con
+  PreferLooseFiles = true. Este ZIP no incluye PrototypeFix.
+- Steam abierto y con sesion iniciada para descargar la API y jugar.
+- El puerto TCP 27015 debe estar libre al arrancar. Prototype se conecta a ese
+  puerto durante el inicio; si otro programa lo ocupa (por ejemplo Apple Mobile
+  Device Service / iTunes), el juego se queda colgado antes de abrir la
+  ventana. El lanzador lo detecta y ofrece detener ese servicio. Este paquete
+  no modifica ni sustituye prototypef.exe.
+
+INSTALACION
+1. Extrae TODO el ZIP en una carpeta normal (no ejecutes el .exe desde dentro
+   del ZIP).
+2. Ejecuta PrototypeCoopLauncher.exe.
+3. Selecciona la carpeta que contiene prototypef.exe. En Steam suele ser
+   steamapps\common\Prototype.
+4. Instala PrototypeFix 1.8.0 de emoose desde Nexus en la carpeta del juego
+   y activa PreferLooseFiles = true. El lanzador solo lo detecta; no lo
+   incluye en el ZIP.
+5. Pulsa Instalar / Actualizar. El lanzador:
+   - copia el mod,
+   - busca una steam_api.dll compatible en tu biblioteca de Steam o descarga
+     la version publica de Steamworks.NET y comprueba su SHA-256,
+   - genera art\hud\protomainmenu.gfx y art\hud\protodevmenu.gfx desde tu
+     propio art.rcf (no se descargan assets del juego).
+6. Inicia el juego desde el lanzador. Su boton Iniciar comprueba antes el
+   puerto TCP 27015; si lo ocupa otro programa (por ejemplo Apple Mobile Device
+   Service / iTunes), ofrece detenerlo. Arrancar directamente desde Steam se
+   salta esa comprobacion y el juego puede quedarse colgado.
+
+ORDEN DE CARGA / PROTOTYPEFIX
+PrototypeFix instala su propio binkw32.dll (y binkw32Hooked.dll). Este ZIP no
+toca ni sustituye binkw32.dll, binkw32Hooked.dll ni prototypeenginef.dll.
+El juego carga xinput1_3.dll; ese proxy carga prototype_coop.asi y solo carga
+prototype_fix.asi si PrototypeFix no lo ha cargado ya. Comprueba la lista de
+modulos, asi que cada ASI se inicializa una vez. PreferLooseFiles = true en
+prototype_fix.ini hace que el juego use los menus generados en art\hud.
+
+No se incluye ningun parche del ejecutable. El juego se arranca por Steam
+como cualquier otro juego.
+
+COMO JUGAR
+1. Los dos jugadores instalan el mod con el lanzador y abren el juego.
+2. El anfitrion: menu principal -> ONLINE. El mod crea una sala PUBLICA.
+   El menu del lobby sigue el idioma del juego.
+3. Para unirse: el otro jugador abre ONLINE y pulsa BUSCAR. La lista muestra
+   el nombre del anfitrion y el ping; elegir una fila entra en esa sala.
+4. Para invitar a un amigo: INVITAR abre la lista de amigos de Steam. El amigo
+   debe tener el juego abierto y haber abierto ONLINE.
+5. El anfitrion pulsa JUGAR; sus partidas coop se envian al invitado y los dos
+   abren la pantalla de carga. Cargad la misma partida.
+
+PROBLEMAS
+- Si el lanzador no encuentra una steam_api.dll compatible, comprueba que
+  Steam este instalado y con al menos un juego moderno, o que tengas conexion
+  para descargar el release publico de Steamworks.NET.
+- Si ONLINE no aparece, comprueba que PrototypeFix este instalado y que
+  prototype_fix.ini tenga PreferLooseFiles = true.
+- Si el juego se abre desde Steam pero el mod no carga, revisa que
+  xinput1_3.dll y prototype_coop.asi esten en la carpeta del juego.
+
+DOCUMENTACION
+- docs/README.md: indice de la investigacion publica en ingles.
+- docs/RESEARCH.md, docs/DECOMP-AUDIT.md, docs/WORLD-SYNC.md,
+  docs/ENGINE-NOTES.md, docs/PLAN.md, docs/ENGINE-COOP-ROADMAP.md y
+  docs/TODO.md.
+
+CREDITOS
+- PrototypeFix: emoose - https://www.nexusmods.com/prototype/mods/52
+  (no incluido; instalacion aparte)
+- Steam API: Valve / Steamworks.NET (descargada en la instalacion)
+- MinHook/HDE: Tsuda Kageyu / Vyacheslav Patkov (BSD; ver
+  THIRD_PARTY_LICENSES.txt)
+- Mod coop: ProtoCoop
+
+ENGLISH
+Install PrototypeFix 1.8.0 by emoose separately from Nexus and enable
+PreferLooseFiles = true. Then run PrototypeCoopLauncher.exe, select the folder
+containing prototypef.exe, press Install, and launch the game. The launcher
+installs the mod, obtains a compatible Steam API DLL from your Steam library or
+the public Steamworks.NET release, and rebuilds the ONLINE and lobby movies
+from your own art.rcf. PrototypeFix is not included in this ZIP. PrototypeFix
+installs its own binkw32.dll/binkw32Hooked.dll; this package does not touch or
+replace binkw32.dll, binkw32Hooked.dll or prototypeenginef.dll. The game loads
+xinput1_3.dll, which loads prototype_coop.asi and only loads prototype_fix.asi
+if PrototypeFix's loader has not already done so; each ASI is initialised once.
+No game assets, Steam DLL or executable patch is included. TCP port 27015 must be free when
+the game starts; if another program (commonly Apple Mobile Device Service)
+listens there, Prototype hangs before its window. The launcher detects this and
+offers to stop that service. This package does not modify or replace
+prototypef.exe.

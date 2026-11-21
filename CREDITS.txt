@@ -1,0 +1,24 @@
+﻿PROTOTYPE COOP - CREDITS
+========================
+
+PrototypeFix 1.8.0
+  Author: emoose
+  https://www.nexusmods.com/prototype/mods/52
+  Not included in this ZIP. PrototypeFix is a required third-party mod;
+  install it separately from Nexus and follow the author's permissions.
+  The launcher only detects it and checks PreferLooseFiles.
+
+Steam API (steam_api.dll)
+  Valve / Steamworks.NET standalone 2025.164.1
+  https://github.com/rlabrecque/Steamworks.NET/releases
+  Not included in this ZIP. The launcher copies a compatible copy from the
+  user's Steam library or downloads the public Steamworks.NET standalone
+  release and verifies its SHA-256 before installing it.
+
+MinHook 1.3.4 and HDE32/HDE64
+  Tsuda Kageyu / Vyacheslav Patkov
+  BSD 2-Clause. License text in THIRD_PARTY_LICENSES.txt.
+
+Prototype and its assets are property of Activision / Radical Entertainment.
+This ZIP ships no game code or game assets. The ONLINE and lobby movies are
+generated locally from the user's own art.rcf.
