@@ -170,9 +170,31 @@ generated `art\hud` menu movies.
 > **Starting a new save?** Ideally, do it after Alex Mercer escapes the
 > biopsy.
 
+> **Joining feedback:** after choosing a host, the lobby shows `JOINING`. On
+> success it shows `JOINED` with the host name and returns to the host list; on
+> failure it shows `JOIN FAILED` and you can retry.
+
+> **Invite feedback:** after inviting a friend, the host's waiting row shows
+> `INVITED <name>`, `ALREADY INVITED`, `ALREADY IN LOBBY` or `LOBBY FULL`. The
+> friend list marks the row `[INVITED]`. A declined invitation is remembered
+> until the host invites that friend again, so the guest is not prompted every
+> few seconds.
+
 > **Co-op only starts from the Online lobby.** Continue and New Game on the
 > main menu are single-player; they do not arm co-op, send player state or spawn
 > a remote avatar. This works even if a lobby is still open.
+
+### Kicking a guest
+
+The host sees the guest's name in the lobby. That row is marked `[KICK]`;
+select it and press A to remove the guest. The guest is asked to leave and sees
+`KICKED`.
+
+This is cooperative: Steam's matchmaking API in this build has no forced lobby
+kick, so a modified client could ignore it.
+
+All lobby text follows the game's language: English, Spanish, French and
+Italian, plus German, Portuguese and Dutch when the game uses them.
 
 Both players need their own Steam account. Two instances on one PC share one
 Steam account, so they cannot find each other through Steam.

@@ -59,6 +59,27 @@ COMO JUGAR
 5. El anfitrion pulsa JUGAR; sus partidas coop se envian al invitado y los dos
    abren la pantalla de carga. Cargad la misma partida.
 
+AL UNIRSE
+Al elegir un anfitrion, el lobby muestra UNIENDOSE. Si entra, muestra UNIDO
+con el nombre del anfitrion; si falla, muestra NO SE PUDO UNIR y puedes
+reintentar.
+
+INVITAR A UN AMIGO
+Al invitar, la fila de espera del anfitrion muestra INVITADO <nombre>, YA
+INVITADO, YA EN LA SALA o SALA LLENA. La lista de amigos marca la fila con
+[INVITADO]. Si el invitado rechaza, no se le vuelve a preguntar hasta que el
+anfitrion lo invite de nuevo.
+
+EXPULSAR A UN JUGADOR
+El anfitrion puede seleccionar el nombre del invitado y pulsar A. La fila
+muestra [EXPULSAR]. El invitado recibe el aviso y sale del lobby; Steam no
+ofrece expulsion forzada en esta API, asi que un cliente modificado podria
+ignorarlo.
+
+IDIOMAS
+El lobby sigue el idioma del juego: espanol, ingles, frances e italiano; si el
+juego usa aleman, portugues o neerlandes, tambien se traduce.
+
 PROBLEMAS
 - Si el lanzador no encuentra una steam_api.dll compatible, comprueba que
   Steam este instalado y con al menos un juego moderno, o que tengas conexion
@@ -98,3 +119,19 @@ the game starts; if another program (commonly Apple Mobile Device Service)
 listens there, Prototype hangs before its window. The launcher detects this and
 offers to stop that service. This package does not modify or replace
 prototypef.exe.
+
+JOINING AND KICKING
+After choosing a host the lobby shows JOINING; success shows JOINED with the
+host name, failure shows JOIN FAILED. The host can select the guest's [KICK]
+row and press A; the guest is asked to leave and sees KICKED. Steam has no
+forced lobby kick in this API, so a modified client could ignore it.
+
+INVITING A FRIEND
+After inviting, the host's waiting row shows INVITED <name>, ALREADY INVITED,
+ALREADY IN LOBBY or LOBBY FULL. The friend list marks the row [INVITED]. A
+declined invitation is not offered again until the host invites that friend
+again.
+
+LANGUAGES
+The lobby follows the game's language: English, Spanish, French and Italian,
+plus German, Portuguese and Dutch when the game uses them.
