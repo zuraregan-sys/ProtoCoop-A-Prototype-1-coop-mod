@@ -148,6 +148,122 @@ ASI and works with either loader.
 `PreferLooseFiles = true` in `prototype_fix.ini` is what makes the game use the
 generated `art\hud` menu movies.
 
+### Verify files
+
+Press **Verify files** on the Install tab after an antivirus warning, a failed
+install or a partial update. It checks:
+
+- the supported game version (the base menu movie inside `art.rcf`);
+- the mod ASI, XInput proxy and both menu hashes;
+- the Steam API DLL and its required exports;
+- PrototypeFix presence and `PreferLooseFiles = true`;
+- `coop.ini` presence.
+
+It repairs only the missing or damaged mod/proxy/menu/Steam API files and
+enables `PreferLooseFiles` when needed. PrototypeFix itself is third-party and
+is never installed or replaced; if it is missing, the report points to Nexus.
+Saves, `coop.ini`, logs and an existing PrototypeFix install are kept.
+
+### Uninstall
+
+Close the game, open **Install**, and press **Uninstall**. The launcher:
+
+- removes `prototype_coop.asi`, `coop_steam_api.dll` and the XInput proxy;
+- restores the original menu movies from the backups made at install time, or
+  removes the loose movies so the game uses `art.rcf` again;
+- restores a backed-up `steam_appid.txt` if the installer removed one.
+
+Saves, `coop.ini`, logs and PrototypeFix are **not** touched. Nothing else in
+the game folder is changed, and the launcher can reinstall the mod afterwards.
+
+### Versions and changelog
+
+The **launcher** and the **mod** are versioned separately. The launcher footer
+shows both versions, and the **Changelog** tab lists every update from the
+early public test through the current build.
+
+### Updates
+
+The **Changelog** tab has **Check for updates**, and the launcher also checks
+once on startup. Next to the button you can choose **Stable** (default) or
+**Beta**. Stable ignores GitHub prereleases; Beta includes them, but a stable
+release still wins when the numeric version is the same.
+
+If the launcher, the mod, or both have a newer version, a popup offers:
+
+- **View changes** - read the release changelog.
+- **Download package** - save a rollback copy of the current package, download
+  the official ZIP, verify its SHA-256 and extract it into the launcher data
+  folder (`Documents\Prototype Coop\updates\PrototypeCoop-<tag>` normally,
+  `<launcher>\data\updates\...` in portable mode), with an instructions file,
+  then open that folder.
+- **Skip this version** - hide this release on future startups. **Check for
+  updates** still shows it, and a newer release is offered normally.
+- **Close** - keep playing; the launcher reminds you on the next start.
+
+To apply it, close the launcher, copy the files from that folder over your
+launcher folder and open the new `PrototypeCoopLauncher.exe`. If the mod also
+changed, press **Install** in the new launcher. Nothing restarts itself, runs
+hidden, or needs GitHub. Your saves, `coop.ini` and PrototypeFix are untouched.
+
+The launcher saves the current package in the launcher data folder
+(`Documents\Prototype Coop\rollbacks` normally, `<launcher>\data\rollbacks` in
+portable mode) on startup and before downloading an update. **Rollback** on the
+Changelog tab lists those copies. Rollback is manual: close the launcher, copy
+the chosen folder over the launcher folder, open the old
+`PrototypeCoopLauncher.exe` and press **Install** to restore the older mod.
+Saves, `coop.ini`, logs and PrototypeFix are not touched.
+
+Automatic update checks require **v0.1.7 or newer**. Older launchers must
+update manually once; after that, the Changelog tab handles future updates.
+
+### Folders, saves and portable mode
+
+The launcher remembers the selected game folder in `launcher.ini`, so you do
+not need to browse for it on every launch. The **Play** tab has buttons to open
+the game folder, the co-op saves in `Documents\Prototype Coop`, and the game
+logs (`coop.log` when present, otherwise the launcher log).
+
+**Back up saves** copies the solo and co-op save files (`profile.bin` and
+`slot-*.bin`) into the launcher data folder under `save-backups`. The launcher
+also performs this backup automatically before the first co-op install, so the
+existing campaign is safe while the mod seeds its co-op save folder. Saves are
+only copied, never changed; the newest five backups are kept.
+
+**Portable mode** (Cog dialog) stores updates, rollback copies, crash reports
+and save backups in `data` next to the launcher instead of
+`Documents\Prototype Coop`. Game saves stay in `Documents\Prototype Coop`
+because the game controls that path. `launcher.ini` already lives next to the
+launcher, so the whole folder can be moved together.
+
+### Feedback
+
+The **Feedback** tab has a single text box and a **Send** button. It sends the
+message plus the launcher and mod versions to a private Discord channel through
+a Cloudflare Worker. No SteamID, username, file path or hardware data is sent.
+If sending is unavailable, **Copy** puts the text on the clipboard.
+Feedback is not end-to-end encrypted: Cloudflare and Discord process the
+message under their own privacy policies. Do not send passwords, addresses or
+other sensitive information.
+
+### Privacy and network access
+
+The launcher has no analytics, telemetry or advertising and never uploads logs
+by itself. It contacts:
+
+- **GitHub** on startup to check releases and during install to download
+  Steamworks.NET. GitHub sees your IP and the requested file.
+- **Cloudflare and Discord** only when you press **Send** in Feedback.
+  Cloudflare receives your IP; the Worker stores only a short-lived hash for
+  rate limiting. Discord keeps the message in a private channel until it is
+  deleted. Do not send personal information.
+- **Steam** for the game, lobby and public player count, under Steam's policy.
+
+Crash reports are written locally under the launcher data folder
+(`Documents\Prototype Coop\crash-reports` normally, `data\crash-reports` in
+portable mode) and are uploaded only if you attach one to a GitHub issue
+yourself.
+
 ---
 
 ## 🎮 Start a co-op match
@@ -217,12 +333,14 @@ Steam account, so they cannot find each other through Steam.
 
 ## ⚙️ Launcher
 
-- **Play** — launch, component status, port check and the public-lobby player count.
-- **Install** — choose the game folder and install/update.
+- **Play** — launch, component status, port check, public-lobby player count, open game/save/log folders and back up saves.
+- **Install** — choose the game folder (remembered), install/update, uninstall or verify files.
 - **Game settings** — video, LOD, FOV, shadow resolution, FPS, VRAM and fixes.
 - **Status** — copyable diagnostics: hashes, port owner and current settings.
+- **Changelog** — version history, update checks, stable/beta channel and rollback.
+- **Feedback** — send a message to the developer from the launcher.
 - **About** — credits, docs and the report button.
-- **Cog** — language and Dark/Light UI. Dark mode is the default.
+- **Cog** — language (English, Spanish, French, Italian, German, Portuguese and Dutch), Dark/Light UI and portable mode. The update popup and Changelog tab follow the same language.
 
 The player count shows **players inside public co-op lobbies**, not every
 installation or solo player. It needs Steam running and refreshes once a minute.
@@ -240,18 +358,20 @@ session during gameplay.
   17-digit Steam IDs are redacted, but logs may still contain your Steam name,
   so review the ZIP before attaching it.
 - **Network access is limited to Steam and GitHub.** Steam handles the game,
-  lobbies, invites and the public-lobby count. GitHub is used only to download
-  the pinned Steamworks.NET API when no compatible local copy exists; the ZIP
-  and DLL are verified by SHA-256. Nexus Mods and GitHub links open only when
-  you click them.
+  lobbies, invites and the public-lobby count. GitHub is used to check for
+  launcher/mod updates, download an update ZIP or the pinned Steamworks.NET API
+  when needed, and open links you click. Downloads are verified by SHA-256.
+  The update check sends no account or game data.
 - **No executable patches.** The launcher adds the mod and input proxy and
   replaces the two menu movies with versions generated from your own `art.rcf`
   (originals are backed up). PrototypeFix is installed separately and is not
   copied or modified. It does not patch or replace `prototypef.exe`, and it
   ships no game assets or Steam DLLs.
 - **Local files only.** Launcher settings stay next to the launcher; game
-  settings and logs stay in the game folder. Co-op saves and crash reports live
-  under `Documents\Prototype Coop`. Delete them anytime.
+  settings and logs stay in the game folder. Updates, rollback copies, crash
+  reports and save backups live under `Documents\Prototype Coop`, or under
+  `data` next to the launcher in portable mode. Co-op saves stay in
+  `Documents\Prototype Coop`. Delete them anytime.
 - **No drivers or background services.** Nothing is added to Windows startup.
   If TCP port 27015 is occupied by Apple Mobile Device Service, the launcher
   asks before stopping it; that service returns after a reboot.
@@ -315,7 +435,8 @@ The issue tracker is:
 When the game is started from the launcher and exits with an error, the launcher
 creates a ZIP in:
 
-`Documents\Prototype Coop\crash-reports`
+`Documents\Prototype Coop\crash-reports` normally, or
+`data\crash-reports` in portable mode.
 
 It then offers to open a GitHub issue. The ZIP is **not uploaded
 automatically**; review it and attach it to the issue. User paths and
@@ -348,7 +469,9 @@ automatically**; review it and attach it to the issue. User paths and
 
 **Does it touch my solo saves?**  
 The mod uses a separate `Documents\Prototype Coop` save folder. Your original
-solo folder is not overwritten.
+solo folder is not overwritten. The launcher also offers **Back up saves** and
+backs up the solo/co-op `profile.bin` and `slot-*.bin` files before the first
+co-op install.
 
 **Can three or more players join?**  
 No. The current target is two players.

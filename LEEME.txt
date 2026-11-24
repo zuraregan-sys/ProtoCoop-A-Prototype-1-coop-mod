@@ -37,6 +37,9 @@ INSTALACION
    Service / iTunes), ofrece detenerlo. Arrancar directamente desde Steam se
    salta esa comprobacion y el juego puede quedarse colgado.
 
+Nota: las comprobaciones automaticas de actualizaciones necesitan v0.1.7 o
+superior. Si vienes de una version anterior, actualiza una vez a mano.
+
 ORDEN DE CARGA / PROTOTYPEFIX
 PrototypeFix instala su propio binkw32.dll (y binkw32Hooked.dll). Este ZIP no
 toca ni sustituye binkw32.dll, binkw32Hooked.dll ni prototypeenginef.dll.
@@ -47,6 +50,81 @@ prototype_fix.ini hace que el juego use los menus generados en art\hud.
 
 No se incluye ningun parche del ejecutable. El juego se arranca por Steam
 como cualquier otro juego.
+
+VERIFICAR ARCHIVOS
+En Instalar, pulsa Verificar archivos despues de un aviso del antivirus, una
+instalacion fallida o una actualizacion parcial. Comprueba la version del
+juego, los hashes del mod, el proxy, los menus y la API de Steam, PrototypeFix
+con PreferLooseFiles, y coop.ini. Repara solo lo que falta o esta danado.
+PrototypeFix es de terceros: no se instala ni se reemplaza. Tus partidas,
+coop.ini, registros y PrototypeFix se conservan.
+
+CARPETAS Y PARTIDAS
+El lanzador recuerda la carpeta del juego. En Jugar hay botones para abrir la
+carpeta del juego, las partidas coop en Documentos\Prototype Coop y los
+registros. Respaldar partidas copia profile.bin y slot-*.bin a la carpeta de
+datos del lanzador; el primer install tambien crea una copia automatica. Solo
+se copian las partidas y se conservan las cinco copias mas recientes.
+
+MODO PORTABLE
+En Ajustes, Modo portable guarda actualizaciones, copias para revertir,
+informes y copias de partidas en data junto al lanzador. Las partidas del juego
+siguen en Documentos\Prototype Coop. Mueve la carpeta completa del lanzador.
+
+DESINSTALAR
+Cierra el juego, abre Instalar y pulsa Desinstalar. El lanzador quita
+prototype_coop.asi, coop_steam_api.dll y el proxy XInput, restaura los menus
+originales desde las copias de seguridad o elimina los menus sueltos para que
+el juego use art.rcf, y devuelve el steam_appid.txt si lo habia quitado. No
+toca las partidas, coop.ini, los registros ni PrototypeFix. Despues puedes
+volver a instalar el mod con el mismo lanzador.
+
+VERSIONES
+El lanzador y el mod tienen versiones separadas. El pie del lanzador muestra
+las dos y la pestana Novedades contiene el historial de todos los cambios.
+
+ACTUALIZACIONES
+La pestana Novedades tiene Buscar actualizaciones y un selector Estable/Beta.
+Estable ignora los prereleases de GitHub; Beta los incluye. El lanzador tambien
+comprueba una vez al arrancar. Si hay una version nueva muestra Ver cambios,
+Descargar paquete, Omitir esta version o Cerrar. Omitir oculta esa version en
+los proximos arranques; Buscar actualizaciones la vuelve a mostrar.
+
+Descargar paquete guarda antes una copia de la version actual, baja el ZIP
+oficial, comprueba su SHA-256 y lo extrae en la carpeta de datos del lanzador
+(Documentos\Prototype Coop\updates o data\updates en modo portable), dentro de
+una carpeta visible con instrucciones. Despues cierra el lanzador,
+copia esos archivos sobre la carpeta del lanzador y abre el nuevo
+PrototypeCoopLauncher.exe. Si el mod tambien cambio, pulsa Instalar.
+
+REVERTIR
+Las copias anteriores se guardan en la carpeta de datos del lanzador
+(Documentos\Prototype Coop\rollbacks o data\rollbacks en modo portable). El
+boton Revertir de Novedades las lista. Cierra el lanzador, copia la carpeta
+elegida sobre la carpeta del lanzador, abre el PrototypeCoopLauncher.exe antiguo
+y pulsa Instalar. Es manual: no se reemplaza solo ni ejecuta nada oculto. Tus
+partidas, coop.ini, registros y PrototypeFix no se tocan.
+
+La comprobacion automatica necesita v0.1.7 o superior. Las versiones anteriores
+deben actualizarse una vez a mano.
+
+COMENTARIOS
+La pestana Comentarios abre un cuadro de texto para escribir al desarrollador.
+Solo se envian el mensaje y las versiones del lanzador y del mod; no se envia
+SteamID, nombre, rutas ni datos del equipo. El mensaje pasa por Cloudflare, que
+recibe tu IP y guarda solo un hash unos 10 minutos para limitar spam, y llega a
+un canal privado de Discord, donde queda hasta que el desarrollador lo borre.
+No escribas datos personales: no envies contrasenas, direcciones ni informacion
+sensible.
+
+PRIVACIDAD Y RED
+El lanzador no tiene analitica ni telemetria y no sube registros por su cuenta.
+Al arrancar consulta GitHub para comprobar si hay versiones nuevas; al instalar
+descarga Steamworks.NET desde GitHub. GitHub ve tu IP. La pestana Comentarios
+solo contacta con Cloudflare y Discord cuando pulsas Enviar. Steam gestiona el
+juego, el lobby y el contador de jugadores. Los informes de fallos se guardan en
+la carpeta de datos del lanzador (Documentos\Prototype Coop\crash-reports o
+data\crash-reports) y solo se suben si tu adjuntas el ZIP a un issue.
 
 COMO JUGAR
 1. Los dos jugadores instalan el mod con el lanzador y abren el juego.
@@ -79,6 +157,9 @@ ignorarlo.
 IDIOMAS
 El lobby sigue el idioma del juego: espanol, ingles, frances e italiano; si el
 juego usa aleman, portugues o neerlandes, tambien se traduce.
+El lanzador tiene un selector en Ajustes con espanol, ingles, frances, italiano,
+aleman, portugues y neerlandes. El aviso de actualizacion, Novedades, Comentarios
+y Revertir usan el mismo idioma.
 
 PROBLEMAS
 - Si el lanzador no encuentra una steam_api.dll compatible, comprueba que
@@ -120,6 +201,82 @@ listens there, Prototype hangs before its window. The launcher detects this and
 offers to stop that service. This package does not modify or replace
 prototypef.exe.
 
+Automatic update checks require v0.1.7 or newer. If you come from an older
+build, update manually once.
+
+VERIFY FILES
+On Install, press Verify files after an antivirus warning, a failed install or
+a partial update. It checks the game version, mod/proxy/menu and Steam API
+hashes, PrototypeFix with PreferLooseFiles, and coop.ini. It repairs only what
+is missing or damaged. PrototypeFix is third-party and is never installed or
+replaced. Saves, coop.ini, logs and PrototypeFix are kept.
+
+FOLDERS AND SAVES
+The launcher remembers the selected game folder. The Play tab has buttons to
+open the game folder, the co-op saves in Documents\Prototype Coop, and the game
+logs. Back up saves copies profile.bin and slot-*.bin into the launcher data
+folder; the first install also creates a backup automatically. Saves are only
+copied and the newest five backups are kept.
+
+PORTABLE MODE
+In Settings, Portable mode stores updates, rollback copies, reports and save
+backups in data next to the launcher. Game saves stay in
+Documents\Prototype Coop. Move the whole launcher folder together.
+
+UNINSTALL
+Close the game, open Install and press Uninstall. The launcher removes
+prototype_coop.asi, coop_steam_api.dll and the XInput proxy, restores the
+original menus from the install backups (or removes the loose movies so the
+game uses art.rcf), and restores a backed-up steam_appid.txt if the installer
+removed one. Saves, coop.ini, logs and PrototypeFix are kept. You can reinstall
+the mod afterwards with the same launcher.
+
+VERSIONS
+The launcher and the mod are versioned separately. The launcher footer shows
+both versions, and the Changelog tab contains the complete update history.
+
+UPDATES
+The Changelog tab has Check for updates and a Stable/Beta selector. Stable
+ignores GitHub prereleases; Beta includes them. The launcher also checks once
+on startup. If something is newer, it shows View changes, Download package,
+Skip this version, or Close. Skip hides that release on future startups; Check
+for updates still shows it.
+
+Download package saves a copy of the current version first, then downloads the
+official ZIP, verifies its SHA-256 and extracts it into the launcher data folder
+(Documents\Prototype Coop\updates, or data\updates in portable mode), in a
+visible folder with instructions. Then close the launcher, copy those files
+over the launcher folder and open the new PrototypeCoopLauncher.exe. If the mod
+changed too, press Install.
+
+ROLLBACK
+Previous copies are kept in the launcher data folder
+(Documents\Prototype Coop\rollbacks, or data\rollbacks in portable mode). The Rollback
+button on the Changelog tab lists them. Close the launcher, copy the chosen
+folder over the launcher folder, open the old PrototypeCoopLauncher.exe and
+press Install. This is manual: nothing replaces itself or runs hidden. Your
+saves, coop.ini, logs and PrototypeFix are not touched.
+
+Automatic update checks require v0.1.7 or newer. Older versions must update
+manually once.
+
+FEEDBACK
+The Feedback tab opens a text box for messaging the developer. Only the message
+and the launcher/mod versions are sent; no SteamID, username, paths or hardware
+data. The message goes through Cloudflare, which receives your IP and keeps
+only a hash for about 10 minutes to rate-limit spam, then to a private Discord
+channel, where it stays until the developer deletes it. Feedback is not
+end-to-end encrypted; do not send passwords, addresses or other sensitive
+information.
+
+PRIVACY AND NETWORK
+The launcher has no analytics or telemetry and does not upload logs by itself.
+On startup it asks GitHub for release metadata; during install it downloads
+Steamworks.NET from GitHub. GitHub sees your IP. The Feedback tab contacts
+Cloudflare and Discord only when you press Send. Steam handles the game, lobby
+and player count. Crash reports are stored locally under Documents and are
+uploaded only if you attach the ZIP to a GitHub issue yourself.
+
 JOINING AND KICKING
 After choosing a host the lobby shows JOINING; success shows JOINED with the
 host name, failure shows JOIN FAILED. The host can select the guest's [KICK]
@@ -135,3 +292,6 @@ again.
 LANGUAGES
 The lobby follows the game's language: English, Spanish, French and Italian,
 plus German, Portuguese and Dutch when the game uses them.
+The launcher has a language selector in Settings with English, Spanish, French,
+Italian, German, Portuguese and Dutch. The update popup, Changelog, Feedback and
+Rollback tabs use the same language.
