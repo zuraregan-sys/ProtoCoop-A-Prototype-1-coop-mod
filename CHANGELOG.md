@@ -1,6 +1,40 @@
 # Prototype Coop changelog
 
-Current: Launcher 0.2.0 | Mod 0.1.7
+Current: Launcher 0.2.1 | Mod 0.1.8
+
+## Launcher 0.2.1 / Mod 0.1.8 - 2026-11-24
+
+- New **host/guest version check**: when the second player joins, both mods
+  exchange their mod version and the network protocol before a session starts.
+- New **native lobby version card** drawn by the mod (no extra GFx movie):
+  shows YOU, PEER, both versions, protocol and state (`IN SYNC`,
+  `VERSION MISMATCH`, `INCOMPATIBLE`, `LINKING...`).
+- The host's **PLAY** / **NEW** now waits for the guest's version. A different
+  protocol blocks the start; a different mod version blocks it by default
+  (`version_gate=block`) or warns with `version_gate=warn` in `coop.ini`.
+- `coop_version.txt` in the game folder records the local and peer versions,
+  the protocol and the last state. The launcher **Status** report and crash ZIP
+  include it.
+- The mod version is now compiled from `VERSION`, so the version shown in the
+  lobby and the version in the package cannot drift apart.
+- The number nameplate and the version card share the D3D9 overlay; the version
+  card works with nameplates disabled (`version_overlay=1` by default).
+- The card now saves/restores every D3D9 state it touches (blend op, colour
+  write, stencil, fill mode, vertex blend, clip planes, texture transform), so
+  engine/GFx state cannot tint or hide it.
+- New **live ping** row on the card, measured once a second over the co-op
+  transport (green < 80 ms, amber < 150 ms, red above). The card now also shows
+  during a session and **Ctrl+F12** shows/hides it.
+- New **connection chat**: **Y** opens the chat at the top-right, **Enter**
+  sends, **Esc** closes, and PageUp/PageDown or the arrows scroll the history.
+  A receiver sees a five-second message bubble with
+  `PRESS Y ON YOUR KEYBOARD TO CHAT`. Messages are memory-only and are cleared
+  when the peer link ends or a player is kicked; they survive level loads.
+  `chat=1` in `coop.ini` enables it.
+- The version card and chat are localized in English, Spanish, French, German,
+  Italian, Portuguese and Dutch, in the same dark/red HUD style.
+- Fixed the `Direct3DCreate9Ex` trampoline pointer in the overlay hook: it was
+  never assigned, which could break device creation on that path.
 
 ## Launcher 0.2.0 / Mod 0.1.7 - 2026-11-23
 

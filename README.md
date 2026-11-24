@@ -36,6 +36,10 @@ lobbies and a two-player session.
 - **A native launcher** that installs the mod and Steam API, and detects your
   separately installed PrototypeFix.
 - **Game settings** in the launcher: video, LOD, FOV, FPS, VRAM and fixes.
+- **A lobby version card** that compares both players' mod versions and blocks
+  an incompatible start instead of desyncing silently.
+- **A live ping** on the same card and **chat while connected** with message
+  bubbles.
 - **A live lobby count** so you can see whether people are matchmaking.
 - **Crash reports** with a one-click GitHub issue and a ZIP to attach.
 
@@ -47,6 +51,9 @@ lobbies and a two-player session.
 |---|---|
 | Two-player Steam co-op | ✅ Works |
 | Host / guest lobby, search and invites | ✅ Works |
+| Version check and lobby version card | ✅ Works |
+| Live ping and Ctrl+F12 overlay toggle | ✅ Works |
+| Connection chat and message bubbles | ✅ Works |
 | Remote Alex model, movement and 67-joint pose | ✅ Works |
 | Powers, armour, shield and disguise | ✅ Works(kinda) |
 | Devastators (Tendril Barrage, Groundspike Graveyard, Critical Pain) | ✅ Replayed on the puppet |
@@ -182,6 +189,26 @@ The **launcher** and the **mod** are versioned separately. The launcher footer
 shows both versions, and the **Changelog** tab lists every update from the
 early public test through the current build.
 
+### Version check in the lobby
+
+When the second player joins, both mods exchange their mod version and network
+protocol. A native card appears in the bottom-left of the lobby:
+
+- **IN SYNC** - both players run the same mod version.
+- **VERSION MISMATCH** - same protocol, different mod version. Update the mod
+  on both PCs.
+- **INCOMPATIBLE** - different network protocol. The host cannot start a
+  session until both mods are updated.
+- **LINKING...** - waiting for the other player's answer.
+
+The default `version_gate=block` in `coop.ini` refuses to arm a co-op session
+when the versions differ; `version_gate=warn` allows the start but keeps the
+warning on screen (use the same setting on both PCs). If the game never
+answered, `coop_version.txt` in the game folder keeps the local version,
+protocol and last peer version; the launcher **Status** report and crash ZIP
+include it. The same card shows a live ping in game and can be hidden with
+**Ctrl+F12**; see [In-game overlay and chat](#in-game-overlay-and-chat).
+
 ### Updates
 
 The **Changelog** tab has **Check for updates**, and the launcher also checks
@@ -264,6 +291,11 @@ Crash reports are written locally under the launcher data folder
 portable mode) and are uploaded only if you attach one to a GitHub issue
 yourself.
 
+Chat messages are memory-only and travel only to the other player through the
+co-op transport. The chat window uses a local keyboard hook while it is open to
+capture what you type; keys are not logged or sent anywhere else, and the hook
+passes everything through when the chat is closed or the game is not focused.
+
 ---
 
 ## 🎮 Start a co-op match
@@ -310,10 +342,30 @@ This is cooperative: Steam's matchmaking API in this build has no forced lobby
 kick, so a modified client could ignore it.
 
 All lobby text follows the game's language: English, Spanish, French and
-Italian, plus German, Portuguese and Dutch when the game uses them.
+Italian, plus German, Portuguese and Dutch when the game uses them. The native
+version card and chat use the same languages.
 
 Both players need their own Steam account. Two instances on one PC share one
 Steam account, so they cannot find each other through Steam.
+
+### In-game overlay and chat
+
+The native version card also appears during a session and adds a live **ping**.
+The ping is measured once a second over the co-op transport: green below 80 ms,
+amber below 150 ms, red above. Press **Ctrl+F12** to show or hide the card.
+
+Chat is available while both players are connected in the lobby or a co-op
+session:
+
+- **Y** opens the chat at the top-right. **Enter** sends. **Esc** closes.
+- **PageUp / PageDown** or the arrow keys scroll the session history.
+- When a message arrives while the chat is closed, a bubble shows it for five
+  seconds with `PRESS Y ON YOUR KEYBOARD TO CHAT`.
+- Messages live in memory only. Nothing is written to disk, and the whole
+  conversation is cleared when the session ends, the peer disconnects or you
+  are kicked.
+- `chat=1` in `coop.ini` enables chat (default); `version_overlay=1` enables the
+  card and ping.
 
 ---
 
@@ -422,6 +474,8 @@ The issue tracker is:
 2. Open the launcher **Status** tab and press **Copy**.
 3. Collect:
    - `coop.log` from the game folder;
+   - `coop_version.txt` from the game folder (the versions exchanged with the
+     other player);
    - `install.log` from the launcher folder;
    - the crash ZIP, if one was created.
 4. Open an issue with:

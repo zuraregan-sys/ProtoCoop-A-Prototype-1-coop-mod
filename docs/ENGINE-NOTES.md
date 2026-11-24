@@ -314,6 +314,86 @@ The plugin now has an explicit session state:
 This is what keeps a lobby opened earlier from turning a later main-menu
 Continue/New Game into co-op. Online PLAY/NEW remains the only entry point.
 
+## Version handshake and lobby card (2026-11-24)
+
+The mod version is compiled from `VERSION` by `tools/build-coop.ps1`
+(`COOP_MOD_VERSION`); `COOP_PROTOCOL_VERSION` in `diagnostic.cpp` is the network
+contract and is bumped only when a packet changes incompatibly.
+
+The handshake is a fixed 36-byte `V1` packet:
+
+| Offset | Size | Contents |
+|---|---:|---|
+| 0 | 2 | `V1` |
+| 2 | 2 | protocol, little-endian |
+| 4 | 32 | mod version, ASCII, NUL padded |
+
+`HandlePacket` handles `V1` **before** the session gate, because neither side
+has armed a session in the lobby. Both peers send it every 500 ms until the
+other side answers, then every 5 s to notice a change. The state is reset when
+the Steam peer or the lobby changes.
+
+`VersionStartBlockReason` gates `CoopStartScript`, `CoopNewGameScript` and any
+received `G1`/`G2`/`G3` start packet:
+
+- different protocol: always blocked;
+- different mod version: blocked (`version_gate=block`, default) or allowed with
+  the card kept visible (`version_gate=warn`);
+- a linked Steam peer whose `V1` has not arrived yet: the start waits.
+
+The lobby card is native because the lobby GFx movie is at its code-size limit.
+`HookEndScene` draws a single textured quad. The texture is a 512x256 DIB
+rendered with GDI when the state changes: dark card, red spine, Bahnschrift
+SemiCondensed labels, status dot and a footer message. Text is rendered into a
+black scratch DIB; the white antialiasing becomes the alpha and is tinted into
+the card before `LockRect` uploads it. It is installed with the same `EndScene`
+hook as the number nameplate but independently of it
+(`version_overlay=1` by default).
+
+`WriteVersionReport` mirrors the state into `coop_version.txt` (mod, protocol,
+state, peer mod/protocol, gate) for the launcher Status tab and crash ZIP.
+
+Private test hooks (not in `-Public` builds): `COOP_VERSION_PANEL=1` keeps the
+card on screen outside the lobby, `COOP_FAKE_MOD_VERSION=0.1.9` changes only
+what this instance announces, and `COOP_FAKE_PROTOCOL=2` exercises the
+protocol-mismatch path, so two instances on one PC can cover every card state
+without two binaries. Incoming versions are trimmed and a `V1` without a real
+protocol or version is ignored, so a damaged packet cannot block a good peer.
+`COOP_FAKE_CHAT=1` enables chat without a loaded co-op session and
+`COOP_FAKE_FOREGROUND=1` lets the keyboard hook capture input while another
+window has focus, for chat/overlay tests.
+
+## Ping, overlay toggle, chat and localization (2026-11-24)
+
+**Ping** is `P2`/`P3`, 6 bytes (`P2` + 4-byte SendTick). It is handled before
+the session gate, so the lobby card also shows it. The sender sends once a
+second while a peer is linked; the receiver echoes the same tick as `P3`; the
+sender smooths `(3*old + rtt) / 4`. No pong for 4 s shows `--`.
+
+**Overlay toggle**: Ctrl+F12 is consumed by the keyboard hook, which sets
+`g_overlayToggleRequest`; `ChatTick` flips `g_overlayVisible` on the game
+thread. If the hook is unavailable, ChatTick polls `GetAsyncKeyState` instead.
+The card is shown in the lobby and while `g_coopSession` is active.
+
+**Chat** is `Y1` + length byte + UTF-8 (max 160 bytes) and is accepted while
+the peer is linked (lobby or game). The history keeps 127 messages in memory,
+so the 128th new message drops message 1; there is no file I/O. `ClearChat` runs
+on peer change/loss and kick, but not on a level load. The receiver gets a 5 s
+bubble with the message and a 6 s `PRESS Y ...` hint. `Y` opens, Enter sends,
+Esc closes, PageUp/PageDown and arrows scroll.
+
+Input uses a `WH_KEYBOARD_LL` hook on a dedicated thread with a message loop.
+The hook only captures while the chat is open and the game is foreground, turns
+keyboard messages into UTF-8 through `ToUnicodeEx`, and queues them in a
+lock-free ring (`InterlockedIncrement` head/tail) that `ChatTick` drains up to
+32 keys per frame. Alt+Tab, Alt+F4 and the Windows keys always pass through.
+
+Both cards share `OverlaySurface` (DIB + scratch DIB + managed texture). The
+version card is 404x164 on a 512x256 texture; the chat is 480x380 (bubble 480x96)
+on 512x512. Only the text bounding box is composited, so typing does not rescan
+the whole surface. Strings live in `kVersionChatText[7][...]`, separate from the
+GFx lobby table so the movie-facing indices stay stable.
+
 ## Launcher lobby presence (2026-11-21)
 
 The launcher is built as x86 so it can load the same 32-bit Steam API DLL the

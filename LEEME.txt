@@ -83,6 +83,39 @@ VERSIONES
 El lanzador y el mod tienen versiones separadas. El pie del lanzador muestra
 las dos y la pestana Novedades contiene el historial de todos los cambios.
 
+COMPROBACION DE VERSION
+Al entrar el segundo jugador, los dos mods intercambian su version y el
+protocolo de red. En la esquina inferior izquierda del lobby aparece una
+tarjeta nativa:
+- EN SINCRONIA: misma version del mod.
+- VERSION DISTINTA: mismo protocolo, distinta version. Actualiza el mod en los
+  dos PCs.
+- INCOMPATIBLE: protocolo distinto; el anfitrion no puede iniciar la partida
+  hasta actualizar los dos mods.
+- CONECTANDO...: esperando la respuesta del otro jugador.
+
+version_gate=block (por defecto en coop.ini) impide iniciar con versiones
+distintas; version_gate=warn lo permite mostrando el aviso (usa el mismo ajuste
+en los dos PCs). Un protocolo distinto siempre bloquea. coop_version.txt guarda
+las versiones y el estado, y se incluye en el informe de Estado y en el ZIP de
+fallos.
+
+OVERLAY Y CHAT
+Ctrl+F12 muestra u oculta la tarjeta de version/protocolo/ping durante la
+partida. El ping se mide cada segundo: verde por debajo de 80 ms, ambar por
+debajo de 150 ms y rojo por encima.
+
+El chat esta disponible mientras los dos jugadores estan conectados (lobby o
+partida):
+- Y abre el chat arriba a la derecha. Enter envia. Esc cierra.
+- AvPag/RePag o las flechas recorren el historial.
+- Si llega un mensaje con el chat cerrado, aparece un aviso de cinco segundos
+  con "PULSA Y EN TU TECLADO PARA CHATEAR".
+- Los mensajes solo estan en memoria. No se guardan en disco y se borran al
+  perder la conexion o al ser expulsado; sobreviven a las cargas de nivel.
+
+chat=1 en coop.ini activa el chat; version_overlay=1 activa la tarjeta.
+
 ACTUALIZACIONES
 La pestana Novedades tiene Buscar actualizaciones y un selector Estable/Beta.
 Estable ignora los prereleases de GitHub; Beta los incluye. El lanzador tambien
@@ -125,6 +158,11 @@ solo contacta con Cloudflare y Discord cuando pulsas Enviar. Steam gestiona el
 juego, el lobby y el contador de jugadores. Los informes de fallos se guardan en
 la carpeta de datos del lanzador (Documentos\Prototype Coop\crash-reports o
 data\crash-reports) y solo se suben si tu adjuntas el ZIP a un issue.
+
+El chat solo existe en memoria y viaja al otro jugador por el transporte coop.
+Mientras el chat esta abierto usa un hook de teclado local para capturar lo que
+escribes; no se registra ni se envia a ningun otro sitio. Con el chat cerrado o
+el juego sin foco, las teclas pasan normalmente.
 
 COMO JUGAR
 1. Los dos jugadores instalan el mod con el lanzador y abren el juego.
@@ -235,6 +273,36 @@ VERSIONS
 The launcher and the mod are versioned separately. The launcher footer shows
 both versions, and the Changelog tab contains the complete update history.
 
+VERSION CHECK
+When the second player joins, both mods exchange their mod version and network
+protocol. A native card appears in the bottom-left of the lobby:
+- IN SYNC: same mod version.
+- VERSION MISMATCH: same protocol, different mod version. Update the mod on
+  both PCs.
+- INCOMPATIBLE: different protocol; the host cannot start until both mods are
+  updated.
+- LINKING...: waiting for the other player's answer.
+
+version_gate=block (the default in coop.ini) refuses to start with different
+versions; version_gate=warn allows it with the warning on screen. A different
+protocol always blocks. coop_version.txt keeps the versions and state, and the
+Status report and crash ZIP include it.
+
+OVERLAY AND CHAT
+Ctrl+F12 shows or hides the version/protocol/ping card during a session. The
+ping is measured once a second: green below 80 ms, amber below 150 ms, red
+above.
+
+Chat is available while both players are connected (lobby or game):
+- Y opens the chat at the top-right. Enter sends. Esc closes.
+- PageUp/PageDown or the arrow keys scroll through the history.
+- A message received while the chat is closed shows a five-second bubble with
+  "PRESS Y ON YOUR KEYBOARD TO CHAT".
+- Messages are memory-only. Nothing is written to disk and they are cleared
+  when the connection ends or you are kicked; level loads keep them.
+
+chat=1 in coop.ini enables chat; version_overlay=1 enables the card.
+
 UPDATES
 The Changelog tab has Check for updates and a Stable/Beta selector. Stable
 ignores GitHub prereleases; Beta includes them. The launcher also checks once
@@ -276,6 +344,11 @@ Steamworks.NET from GitHub. GitHub sees your IP. The Feedback tab contacts
 Cloudflare and Discord only when you press Send. Steam handles the game, lobby
 and player count. Crash reports are stored locally under Documents and are
 uploaded only if you attach the ZIP to a GitHub issue yourself.
+
+Chat is memory-only and travels only to the other player through the co-op
+transport. While open, the chat uses a local keyboard hook to capture what you
+type; keys are not logged or sent anywhere else. With the chat closed or the
+game unfocused, keys pass through normally.
 
 JOINING AND KICKING
 After choosing a host the lobby shows JOINING; success shows JOINED with the
