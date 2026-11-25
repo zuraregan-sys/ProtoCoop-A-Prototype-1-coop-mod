@@ -342,8 +342,9 @@ This is cooperative: Steam's matchmaking API in this build has no forced lobby
 kick, so a modified client could ignore it.
 
 All lobby text follows the game's language: English, Spanish, French and
-Italian, plus German, Portuguese and Dutch when the game uses them. The native
-version card and chat use the same languages.
+Italian. Those are the four the Steam build exposes (the engine reads its
+`FE_Language` registry code); other codes fall back to English. The native
+version card and chat use the same four.
 
 Both players need their own Steam account. Two instances on one PC share one
 Steam account, so they cannot find each other through Steam.
@@ -357,7 +358,9 @@ amber below 150 ms, red above. Press **Ctrl+F12** to show or hide the card.
 Chat is available while both players are connected in the lobby or a co-op
 session:
 
-- **Y** opens the chat at the top-right. **Enter** sends. **Esc** closes.
+- **Y** opens the chat at the top-right. **Enter** sends and keeps the panel
+  open; **Esc** closes it (the footer shows the Escape hint in the accent
+  colour). Holding the opening Y does not add a `y` to the message.
 - **PageUp / PageDown** or the arrow keys scroll the session history.
 - When a message arrives while the chat is closed, a bubble shows it for five
   seconds with `PRESS Y ON YOUR KEYBOARD TO CHAT`.

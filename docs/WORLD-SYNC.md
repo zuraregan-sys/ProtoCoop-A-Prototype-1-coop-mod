@@ -398,8 +398,8 @@ Friend list:
   has no gap before BACK.
 - The list is capped at 256 entries and paged four at a time: 100 online friends
   are 25 pages, and the last page simply has no NEXT.
-- `COOP_FAKE_FRIENDS=<n>` in the environment fills the list with n fake names
-  (negative = none) to test paging without touching real accounts.
+- A dev-only test hook fills the list with fake names (or none) to test paging
+  without touching real accounts.
 - The focus table is built once when the screen opens: `ClearForScreen` and
   `OnNewScreen` break the clips' mouse events and the gamepad A, so pages only
   change labels and handlers, never the table.

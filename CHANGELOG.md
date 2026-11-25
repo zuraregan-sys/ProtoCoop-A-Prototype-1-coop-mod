@@ -1,6 +1,26 @@
 # Prototype Coop changelog
 
-Current: Launcher 0.2.1 | Mod 0.1.8
+Current: Launcher 0.2.2 | Mod 0.1.9
+
+## Launcher 0.2.2 / Mod 0.1.9 - 2026-11-24
+
+- Fixed the lobby's **PLAY** row for controllers: the game leaves the movie's
+  CONTINUE entry disabled on that screen, so a gamepad could not confirm PLAY.
+  NEW keeps the top row, the waiting line sits under it, and PLAY moved to the
+  third row, which a pad reaches and confirms.
+- The **chat panel now stays open after sending**. Enter sends, Esc closes, and
+  the footer shows the Escape hint in the accent colour instead of small grey
+  text. Holding the opening Y no longer starts the message with a stray `y`.
+- The **in-game lobby, version card and chat** now ship the four languages the
+  Steam build offers: English, Spanish, French and Italian. Other language
+  codes fall back to English. The launcher keeps its seven-language UI.
+- The **start is no longer cancelled after 15 seconds** while the save list is
+  open; it now waits up to two minutes for the load, so browsing saves cannot
+  leave two connected games without a session and without the other avatar.
+- The version card no longer shows a peer name before a peer is connected on
+  the UDP test transport.
+- **SEARCH** with Steam unavailable now reports that instead of starting a
+  search that cannot return anything.
 
 ## Launcher 0.2.1 / Mod 0.1.8 - 2026-11-24
 

@@ -107,7 +107,8 @@ debajo de 150 ms y rojo por encima.
 
 El chat esta disponible mientras los dos jugadores estan conectados (lobby o
 partida):
-- Y abre el chat arriba a la derecha. Enter envia. Esc cierra.
+- Y abre el chat arriba a la derecha. Enter envia y el chat sigue abierto; Esc
+  cierra (el aviso ESC PARA CERRAR aparece resaltado abajo).
 - AvPag/RePag o las flechas recorren el historial.
 - Si llega un mensaje con el chat cerrado, aparece un aviso de cinco segundos
   con "PULSA Y EN TU TECLADO PARA CHATEAR".
@@ -193,8 +194,9 @@ ofrece expulsion forzada en esta API, asi que un cliente modificado podria
 ignorarlo.
 
 IDIOMAS
-El lobby sigue el idioma del juego: espanol, ingles, frances e italiano; si el
-juego usa aleman, portugues o neerlandes, tambien se traduce.
+El lobby y el chat siguen el idioma del juego: espanol, ingles, frances e
+italiano, los cuatro que ofrece la version de Steam. Cualquier otro codigo usa
+ingles.
 El lanzador tiene un selector en Ajustes con espanol, ingles, frances, italiano,
 aleman, portugues y neerlandes. El aviso de actualizacion, Novedades, Comentarios
 y Revertir usan el mismo idioma.
