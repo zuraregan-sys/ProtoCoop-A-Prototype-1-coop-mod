@@ -20,6 +20,11 @@
 ---
 
 ## 🍎 Simple version
+> **Starting a brand-new co-op campaign is not ready yet.** The ONLINE
+> lobby's NEW path skips the opening cinematic and can leave both players
+> without control. Start the campaign **solo**: play through the intro until
+> you escape the doctors in the morgue, save at a checkpoint, then host
+> ONLINE -> PLAY and have the guest load the same save.
 
 One player **hosts**. The other **joins**. The guest gets a remote Alex that
 moves, fights and uses the same powers. The city itself is still simulated on
@@ -64,12 +69,34 @@ lobbies and a two-player session.
 | Vehicle dents | ⚠️ Partial |
 | WhipFist on the remote avatar | ⚠️ Arm/pose yes, connecting tendril weirdly |
 | Shared NPCs, traffic and ambient world | ❌ Off; each PC uses its own |
+| Mission state machines (mission/objective FSMs) | ✅ Host syncs to the guest |
+| New campaign from the ONLINE lobby | ⚠ Not ready; start it solo, then load the save in co-op |
+| Full campaign (cinematics, checkpoints, mission objects) | ⚠️ Partial; see below |
 | Motion trails | ❌ Disabled; they crash the puppet pose |
-| Full campaign / missions | ❌ Not validated |
+
 | 3+ players | ❌ Two-player only |
 
 > 🧪 These results come from limited testing. If something in the “works” list
 > fails for you, please report it with logs.
+
+**Mission state:** while a session is active the host publishes the scenario's state machines (the mission state and its objective/checkpoint sub-machines) and the sequence (NIS/cinematic) players it starts; the guest applies them, so both run the same mission state and begin the same sequences. The host's checkpoint saves are sent to the guest as it writes them. Scenario-spawned mission actors and markers match on both players (checked by a two-instance census), and actors listed in `mission_world` have host-authoritative positions. Starting a brand-new campaign from the ONLINE lobby is **not ready**: use the solo prologue -> co-op load steps above.
+
+**Still local (deliberately or not yet replicated):**
+
+- **Ambient world and traffic:** general world transform sync is off
+  (`sync_world=0`) because the host's NPC/vehicle transforms made the client's
+  own physics fight them (jitter, cars pushed around); each machine keeps its
+  own ambient population. Scenario-spawned mission actors match, and actors
+  listed in `mission_world` (up to eight spawn-template hashes) have
+  host-authoritative positions.
+- **Live respawn:** the host's checkpoint save file is transferred, but the
+  running guest keeps the save it loaded; the transferred slot is what it
+  loads next session. The in-memory respawn point is not replaced live.
+- **NIS camera/sequence timing:** the begin/load is synchronized; each game
+  plays the sequence track with its own clock and camera, so a re-timed or
+  camera-heavy cinematic can still differ.
+
+The accepted final scope is written down in `docs\MISSION-SYNC-SCOPE.md`.
 
 ---
 
@@ -514,7 +541,7 @@ automatically**; review it and attach it to the issue. User paths and
 - **Some decals use the guest’s local material** when the exact shader family
   was never created locally.
 - **Vehicle dents** only replay when the same vehicle exists on the guest.
-- **Full campaign co-op** has not been validated fill but it """""should""""" work.
+- **Full campaign co-op** is not validated; start it solo and load the save in co-op.
 - **Cross-account join** needs more public testing.
 
 > 🐞 These are exactly the things we need logs for. If you hit one, please report

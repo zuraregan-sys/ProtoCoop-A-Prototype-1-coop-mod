@@ -176,6 +176,22 @@ COMO JUGAR
 5. El anfitrion pulsa JUGAR; sus partidas coop se envian al invitado y los dos
    abren la pantalla de carga. Cargad la misma partida.
 
+NUEVA CAMPANA (IMPORTANTE)
+El boton NEW del lobby ONLINE todavia no inicia bien la campana: se salta la
+cinematica de apertura y los dos jugadores pueden quedar sin control. Para
+empezar una campana nueva en coop: creadla en SOLO, jugad la morgue hasta
+escapar de los doctores, guardad en un checkpoint; luego el anfitrion pulsa JUGAR (PLAY) y los
+dos cargais esa misma partida.
+
+SINCRONIZACION DE MISIONES
+Con una sesion coop activa, el anfitrion publica las maquinas de estado del
+escenario (el estado de la mision y sus submaquinas de objetivos/checkpoints) y
+las secuencias (NIS/cinematicas) que empieza; el invitado las aplica, de modo
+que los dos siguen el mismo estado y empiezan la misma secuencia. Los objetos
+del mundo, los checkpoints con guion y los datos completos de camara/secuencia
+de las cinematicas aun no se replican; una mision que dependa de ellos puede
+desincronizarse.
+
 AL UNIRSE
 Al elegir un anfitrion, el lobby muestra UNIENDOSE. Si entra, muestra UNIDO
 con el nombre del anfitrion; si falla, muestra NO SE PUDO UNIR y puedes

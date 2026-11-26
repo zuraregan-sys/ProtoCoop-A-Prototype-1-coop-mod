@@ -1,6 +1,49 @@
 # Prototype Coop changelog
 
-Current: Launcher 0.2.2 | Mod 0.1.9
+Current: Launcher 0.2.3 | Mod 0.1.10
+
+## Launcher 0.2.3 / Mod 0.1.10 - 2026-11-26
+
+- **Known issue: starting a new campaign from the ONLINE lobby is not ready.**
+  The opening cinematic can be skipped and both players can be left without
+  control. Start the campaign solo, play through the morgue until you escape
+  the doctors, save, then host ONLINE -> PLAY and load that save in co-op.
+- **Mission state is now host-authoritative.** While a co-op session is active
+  the host publishes the scenario's state machines (the mission state and its
+  objective/checkpoint sub-machines) and the guest applies them, so both run
+  the same mission instead of drifting apart after a load. `mission_sync=1`
+  (the default in generated configs) controls it; set it to 0 to keep each
+  game's own mission state.
+- **Sequences and cinematics now start on both players.** The host also
+  publishes which NIS sequence each sequence player is loading or playing, and
+  the guest starts the same sequence, so a cinematic that begins on the host
+  is not skipped on the guest. The full camera/sequence data is still the
+  game's own; this synchronizes the begin/load, not a re-timed playback.
+- **Checkpoint saves reach the guest.** When the host writes a checkpoint or
+  autosave, the changed co-op save is sent to the guest and stored, so both
+  machines keep the host's checkpoint. `checkpoint_sync=1` (the default)
+  controls it. Respawning still uses the save loaded at the start; the
+  transferred checkpoint is what the guest loads next.
+- **NEW campaign mission-state sync (intro not ready):** the guest opens the
+  same difficulty screen as the host and both receive the same mission state;
+  the opening cinematic/control issue above still applies. Scenario-spawned
+  mission actors and markers match on both players;
+  ambient world objects/traffic, scripted checkpoints and the full
+  sequence/camera data of cinematics are still not replicated.
+- **Mission-only world state:** list up to eight mission actor/marker spawn
+  template hashes in `mission_world`; the host sends their positions and the
+  guest applies them, while ambient traffic and everything else stays local.
+  Verified with `5A310666` (host moved it 2 m, guest followed with 0 m delta).
+- **Supported mission-sync scope:** scenario state machines, the ONLINE
+  PLAY save load, NIS begin/load, checkpoint save transfer, scenario-spawned
+  mission actors/markers and the explicit `mission_world` actor list. The
+  ONLINE NEW mission state syncs, but the opening issue above still applies.
+  Ambient
+  world streaming/traffic, live in-memory respawn and the full NIS
+  camera/sequence timing are documented as unsupported and are not claimed.
+  A general actor-sync experiment (240 entries) crashed the guest with
+  `C0000005`; a transform-guarded retry also crashed, so the general mode was
+  removed and only the explicit mission whitelist is supported.
 
 ## Launcher 0.2.2 / Mod 0.1.9 - 2026-11-24
 
